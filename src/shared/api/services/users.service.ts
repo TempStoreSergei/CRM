@@ -8,6 +8,16 @@ export interface EmployeesFilters extends PaginationParams {
   role?: string;
 }
 
+export interface CreateUserRequest {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone?: string;
+  department?: string;
+  position?: string;
+  level?: 'Junior' | 'Middle' | 'Senior' | 'Lead';
+}
+
 export const usersService = {
   async getUsers(params: EmployeesFilters = {}): Promise<PaginatedResponse<User>> {
     const response = await http.get<PaginatedResponse<User>>('/users', { params });
@@ -19,9 +29,18 @@ export const usersService = {
     return response.data;
   },
 
+  async createUser(data: CreateUserRequest): Promise<User> {
+    const response = await http.post<User>('/users', data);
+    return response.data;
+  },
+
   async updateUser(id: string, data: Partial<User>): Promise<User> {
     const response = await http.put<User>(`/users/${id}`, data);
     return response.data;
+  },
+
+  async deleteUser(id: string): Promise<void> {
+    await http.delete(`/users/${id}`);
   },
 
   async uploadAvatar(id: string, file: File): Promise<{ avatar: string }> {
