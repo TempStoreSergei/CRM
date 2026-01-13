@@ -12,16 +12,17 @@
         class: 'wrapper events__title'
       }">
         <template #content>
-          <section class="events">
+          <div v-if="isLoading" class="events__loading">Загрузка...</div>
+          <section v-else class="events">
             <CardEvent
-              v-for="index in 7"
-              :key="index"
+              v-for="event in events"
+              :key="event.id"
               :data="{
-                day: 'Today',
-                startTime: '5:00 PM',
-                title: 'Meeting with Development Team',
-                time: '4h',
-                priority: 'medium'
+                day: formatDay(event.startDate),
+                startTime: formatTime(event.startDate),
+                title: event.title,
+                time: calculateDuration(event.startDate, event.endDate),
+                priority: event.type === 'deadline' ? 'high' : 'medium'
               }"
             />
           </section>
@@ -35,12 +36,51 @@
 import { useRouter } from 'vue-router'
 import { TitleWithLink } from '@/entities/grop-title'
 import CardEvent from '@/entities/event/ui/card/CardEvent.vue'
+import { eventsService, type Event } from '@/shared/api'
+import { format, differenceInHours, isToday, isTomorrow } from 'date-fns'
+import { ru } from 'date-fns/locale'
 
 const router = useRouter()
-const goToHome = () => {
-  router.push({ path: '/' })
+
+const events = ref<Event[]>([])
+const isLoading = ref(true)
+
+const formatDay = (dateString: string) => {
+    const date = new Date(dateString)
+    if (isToday(date)) return 'Сегодня'
+    if (isTomorrow(date)) return 'Завтра'
+    return format(date, 'd MMM', { locale: ru })
 }
 
+const formatTime = (dateString: string) => {
+    return format(new Date(dateString), 'HH:mm')
+}
+
+const calculateDuration = (start: string, end: string) => {
+    const hours = differenceInHours(new Date(end), new Date(start))
+    return hours > 0 ? `${hours}ч` : '1ч'
+}
+
+const loadEvents = async () => {
+    isLoading.value = true
+    try {
+        const now = new Date()
+        const weekLater = new Date(Date.now() + 7 * 24 * 60 * 60 * 1000)
+        const response = await eventsService.getEvents({
+            startDate: now.toISOString(),
+            endDate: weekLater.toISOString(),
+        })
+        events.value = response.data.slice(0, 7)
+    } catch (error) {
+        console.error('Failed to load events:', error)
+    } finally {
+        isLoading.value = false
+    }
+}
+
+onMounted(() => {
+    loadEvents()
+})
 </script>
 
 

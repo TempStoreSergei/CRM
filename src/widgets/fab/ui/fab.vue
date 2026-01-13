@@ -37,7 +37,7 @@ import { storeToRefs } from 'pinia';
 import { BottomSheet } from '@/entities/bottom-sheet';
 import { fabConfig } from '@/widgets/fab';
 import { IconBase } from '@/shared/ui/icon-base';
-import { lock, unlock } from '@/shared/lib/ustils/isBlockScroll';
+import { lock, unlock } from '@/shared/lib/utils/isBlockScroll';
 import { useModalStore } from '@/entities/add-modal';
 
 const modalStore = useModalStore();

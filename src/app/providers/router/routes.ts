@@ -19,7 +19,7 @@ export const routes = [
   },
   {
     path: '/projects',
-    component: () => import('@/pages/progects'),
+    component: () => import('@/pages/projects-page'),
     name: 'projects',
     meta: { requiresAuth: true }
   },
@@ -52,8 +52,32 @@ export const routes = [
     meta: { requiresAuth: true }
   },
   {
+    path: '/settings',
+    name: 'settings',
+    component: () => import('@/pages/settings'),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/analytics',
+    name: 'analytics',
+    component: () => import('@/pages/analytics'),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/notifications',
+    name: 'notifications',
+    component: () => import('@/pages/notifications'),
+    meta: { requiresAuth: true }
+  },
+  {
     path: '/login',
+    name: 'login',
     component: () => import('@/pages/login')
+  },
+  {
+    path: '/register',
+    name: 'register',
+    component: () => import('@/pages/register')
   },
   {
     path: '/profile',

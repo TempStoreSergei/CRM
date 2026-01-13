@@ -52,7 +52,7 @@ const router = useRouter()
 import { useAppModel } from '@/entities/app'
 import { NavigationToggle } from '@/features/navigation'
 import { IconBase } from "@/shared/ui/icon-base";
-import { lock, unlock } from "@/shared/lib/ustils/isBlockScroll";
+import { lock, unlock } from "@/shared/lib/utils/isBlockScroll";
 
 const app = useAppModel()
 const isCurrentRoute = (path: string) => router.currentRoute.value.path === path;

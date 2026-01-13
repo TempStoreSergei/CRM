@@ -4,7 +4,7 @@
             <Title
                 class="home-page__welcome-title"
                 :data="{
-                    title: 'Welcome back, Evan!',
+                    title: `Welcome back, ${userName}!`,
                     size: 'small',
                     isHighLeading: true,
                     marginBottom: 'small',
@@ -27,14 +27,27 @@ import { Projects } from '@/widgets/projects';
 import { Events } from '@/widgets/events';
 import { HeaderPage } from '@/entities/header-page';
 import { Title } from '@/shared/ui/title';
+import { authService } from '@/shared/api';
 
 useHead({
   title: 'CRM - Dashboard'
 });
 
-/* onBeforeUnmount(() => {
-  bookModel.$reset()
-}) */
+const userName = ref('...');
+
+const loadUser = async () => {
+    try {
+        const user = await authService.getCurrentUser();
+        userName.value = user.firstName || 'User';
+    } catch (error) {
+        console.error('Failed to load user:', error);
+        userName.value = 'User';
+    }
+};
+
+onMounted(() => {
+    loadUser();
+});
 </script>
 
 <style lang="scss">

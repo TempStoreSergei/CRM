@@ -58,7 +58,7 @@ import { Navigation } from '@/widgets/navigation';
 import { FabBottomSheet } from '@/widgets/fab';
 import { ActionPlus } from '@/features/action-plus';
 import { Support } from '@/widgets/support';
-import { isAuthenticated } from '@/shared/lib/ustils/isAutorise';
+import { isAuthenticated } from '@/shared/lib/utils/isAutorise';
 import { AddEmployee } from '@/widgets/add-employee';
 import { AddRequest } from '@/widgets/add-request'
 import { AddTask } from '@/widgets/add-task'

@@ -23,6 +23,13 @@ export type IconName =
   'edit' |
   'attach' |
   'link' |
-  'clock';
+  'clock' |
+  'settings' |
+  'check' |
+  'user' |
+  'message' |
+  'info' |
+  'bell' |
+  'chart';
 
 export type Priority = 'small' | 'medium' | 'large';
