@@ -72,7 +72,7 @@
                 <Link
                     class="login__link"
                     :data="{
-                        title: $t('auth.noAccount') + ' ' + $t('auth.signUp'),
+                        title: $t('auth.noAccountSignUp'),
                         to: '/register',
                     }"
                 />

@@ -141,6 +141,7 @@
     "resetAllFields": "Reset All Fields",
     "forgotPassword": "Forgot Password?",
     "noAccount": "Don't have an account?",
+    "noAccountSignUp": "Don't have an account? Sign Up",
     "haveAccount": "Already have an account?",
     "allowNotification": "Allow notification?",
     "yes": "Yes",

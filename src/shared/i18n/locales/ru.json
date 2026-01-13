@@ -141,6 +141,7 @@
     "resetAllFields": "Сбросить все поля",
     "forgotPassword": "Забыли пароль?",
     "noAccount": "Нет аккаунта?",
+    "noAccountSignUp": "Нет аккаунта? Зарегистрироваться",
     "haveAccount": "Уже есть аккаунт?",
     "allowNotification": "Разрешить уведомления?",
     "yes": "Да",
