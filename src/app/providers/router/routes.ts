@@ -52,6 +52,24 @@ export const routes = [
     meta: { requiresAuth: true }
   },
   {
+    path: '/settings',
+    name: 'settings',
+    component: () => import('@/pages/settings'),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/analytics',
+    name: 'analytics',
+    component: () => import('@/pages/analytics'),
+    meta: { requiresAuth: true }
+  },
+  {
+    path: '/notifications',
+    name: 'notifications',
+    component: () => import('@/pages/notifications'),
+    meta: { requiresAuth: true }
+  },
+  {
     path: '/login',
     component: () => import('@/pages/login')
   },

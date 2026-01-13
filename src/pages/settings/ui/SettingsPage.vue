@@ -211,7 +211,7 @@ import { useToast } from 'vue-toastification';
 import { Title } from '@/shared/ui/title';
 import { UIInput } from '@/shared/ui/input';
 import { UiButton } from '@/shared/ui/button';
-import { UICheckbox } from '@/shared/ui/checkbox';
+import { Checkbox as UICheckbox } from '@/shared/ui/checkbox';
 import { IconBase } from '@/shared/ui/icon-base';
 import { HeaderPage } from '@/entities/header-page';
 
