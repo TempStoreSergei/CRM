@@ -57,7 +57,7 @@
                     }"
                 />
                 <UIInput
-                    @onInput="(val) => formData.estimatedHours = parseInt(val) || 0"
+                    @onInput="(val) => formData.estimatedHours = parseInt(val, 10) || 0"
                     :data="{
                         type: 'number',
                         title: 'Оценка времени (часы)',
