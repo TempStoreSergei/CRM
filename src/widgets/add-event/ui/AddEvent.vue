@@ -3,7 +3,7 @@
         @onClose="closeAddEvent"
         @onOpen="openAddTask"
         :data="{
-            title: 'Add Event?',
+            title: $t('events.addEvent'),
             open: state.showAddEvent,
         }"
     >
@@ -15,22 +15,22 @@
                 <UIInput
                     :data="{
                         type: 'text',
-                        title: 'Event Name',
-                        placeholder: 'Event Name',
+                        title: $t('events.eventName'),
+                        placeholder: $t('events.eventName'),
                         name: 'event',
                         value: '',
                     }"
                 />
                 <UISelect
                     :data="{
-                        title: 'Event Category',
+                        title: $t('events.eventCategory'),
                         name: 'category',
                         options: [],
                     }"
                 />
                 <UISelect
                     :data="{
-                        title: 'Priority',
+                        title: $t('events.priority'),
                         name: 'priority',
                         options: [],
                     }"
@@ -39,7 +39,7 @@
                 <UIInput
                     :data="{
                         type: 'text',
-                        title: 'Date',
+                        title: $t('events.date'),
                         placeholder: '1:00 AM',
                         iconName: 'clock',
                         isReadonly: true,
@@ -50,8 +50,8 @@
                 <UiTextArea
                     :data="{
                         name: 'event',
-                        title: 'Description',
-                        placeholder: 'Add some description of the event',
+                        title: $t('events.description'),
+                        placeholder: $t('events.description'),
                     }"
                 />
             </form>
@@ -60,7 +60,7 @@
             <div class="add-task__save">
                 <UiButton
                     :data="{
-                        title: 'Save Event',
+                        title: $t('events.saveEvent'),
                         type: 'submit',
                         isFull: true,
                     }"

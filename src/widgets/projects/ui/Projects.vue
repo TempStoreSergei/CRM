@@ -4,16 +4,16 @@
             <TitleWithLink
                 :data="{
                     title: {
-                        title: 'Projects',
+                        title: $t('projects.title'),
                     },
                     link: {
-                        title: 'View all',
+                        title: $t('common.viewAll'),
                         to: '/projects',
                     },
                 }"
             >
                 <template #content>
-                    <div v-if="isLoading" class="projects__loading">Загрузка...</div>
+                    <div v-if="isLoading" class="projects__loading">{{ $t('common.loading') }}</div>
                     <section v-else class="projects">
                         <CardProject
                             v-for="project in projects"

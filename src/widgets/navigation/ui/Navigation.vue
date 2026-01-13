@@ -16,7 +16,7 @@
                                :to="item.route"
                                :class="{'navigation__router_active': isCurrentRoute(item.route)}"
                                @click="closeNavigation">
-                    {{ item.label }}
+                    {{ $t(item.labelKey) }}
                   </router-link>
                 </div>
               </li>
@@ -25,7 +25,7 @@
           <UiButton class="navigation__button"
                     @click="showSupport"
                     :data="{
-                      title: 'Support'
+                      title: $t('common.support')
                     }"
           />
           <div class="navigation__logout">
@@ -33,7 +33,7 @@
               iconName: 'logout'
             }"/>
             <button class="navigation__button_logout">
-              Log out
+              {{ $t('common.logout') }}
             </button>
           </div>
         </div>

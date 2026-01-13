@@ -36,6 +36,10 @@ export class Calendar {
     this.currentDate = subMonths(this.currentDate, 1);
   }
 
+  getCurrentDate(): Date {
+    return this.currentDate;
+  }
+
   getCalendar(): DateInfo[][] {
     const firstDayOfMonth = startOfMonth(this.currentDate);
     const lastDayOfMonth = endOfMonth(this.currentDate);

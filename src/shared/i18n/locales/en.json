@@ -1,0 +1,128 @@
+{
+  "common": {
+    "loading": "Loading...",
+    "save": "Save",
+    "cancel": "Cancel",
+    "delete": "Delete",
+    "edit": "Edit",
+    "add": "Add",
+    "search": "Search",
+    "viewAll": "View all",
+    "logout": "Log out",
+    "support": "Support",
+    "connected": "Connected",
+    "notConnected": "Not connected",
+    "connect": "Connect",
+    "disconnect": "Disconnect"
+  },
+  "nav": {
+    "dashboard": "Dashboard",
+    "projects": "Projects",
+    "calendar": "Calendar",
+    "vacations": "Vacations",
+    "employees": "Employees",
+    "messenger": "Messenger",
+    "notifications": "Notifications",
+    "settings": "Settings"
+  },
+  "home": {
+    "welcomeBack": "Welcome back, {name}!"
+  },
+  "projects": {
+    "title": "Projects",
+    "addProject": "Add project",
+    "noProjects": "No projects"
+  },
+  "calendar": {
+    "title": "Calendar",
+    "today": "Today",
+    "tomorrow": "Tomorrow",
+    "noEvents": "No events",
+    "addEvent": "Add event",
+    "days": {
+      "mon": "Mon",
+      "tue": "Tue",
+      "wed": "Wed",
+      "thu": "Thu",
+      "fri": "Fri",
+      "sat": "Sat",
+      "sun": "Sun"
+    }
+  },
+  "events": {
+    "title": "Events",
+    "addEvent": "Add event",
+    "eventName": "Event Name",
+    "eventCategory": "Event Category",
+    "priority": "Priority",
+    "date": "Date",
+    "description": "Description",
+    "saveEvent": "Save Event"
+  },
+  "vacations": {
+    "title": "Vacations",
+    "from": "From",
+    "to": "To",
+    "total": "Total",
+    "noVacations": "No vacations"
+  },
+  "employees": {
+    "title": "Employees",
+    "addEmployee": "Add Employee",
+    "activity": "Activity",
+    "list": "List",
+    "department": "Department",
+    "birthday": "Birthday",
+    "status": "Status",
+    "position": "Position",
+    "backlogTasks": "Backlog Tasks",
+    "inProgress": "In Progress",
+    "inReview": "In Review",
+    "firstName": "First Name",
+    "lastName": "Last Name",
+    "email": "Email",
+    "phone": "Phone",
+    "level": "Level",
+    "adding": "Adding...",
+    "fillRequired": "Please fill required fields: First Name, Last Name, Email",
+    "addedSuccess": "Employee added successfully!",
+    "addError": "Error adding employee"
+  },
+  "departments": {
+    "development": "Development",
+    "design": "Design",
+    "marketing": "Marketing",
+    "hr": "HR",
+    "sales": "Sales",
+    "support": "Support"
+  },
+  "settings": {
+    "title": "Settings",
+    "profile": "Profile",
+    "notifications": "Notifications",
+    "emailNotifications": "Email notifications",
+    "pushNotifications": "Push notifications",
+    "taskNotifications": "Task notifications",
+    "eventNotifications": "Event notifications",
+    "integrations": "Integrations",
+    "appearance": "Appearance",
+    "darkTheme": "Dark theme",
+    "language": "Language",
+    "saveChanges": "Save Changes",
+    "profileLoadError": "Failed to load profile data",
+    "settingsSaved": "Settings saved!",
+    "settingsSaveError": "Failed to save settings",
+    "googleCalendarRedirect": "Redirecting to Google for authorization...",
+    "telegramBot": "Open Telegram and find bot @CRMBot"
+  },
+  "auth": {
+    "login": "Log In",
+    "register": "Register",
+    "email": "Email",
+    "password": "Password"
+  },
+  "tasks": {
+    "title": "Tasks",
+    "addTask": "Add Task"
+  }
+}

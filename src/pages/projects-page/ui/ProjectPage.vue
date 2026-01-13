@@ -2,7 +2,7 @@
     <section class="projects-page">
         <HeaderPage />
         <main class="wrapper">
-            <div v-if="isLoading" class="projects-page__loading">Загрузка...</div>
+            <div v-if="isLoading" class="projects-page__loading">{{ $t('common.loading') }}</div>
             <template v-else>
                 <CardProjectSmall
                     v-if="currentProject"
@@ -15,7 +15,7 @@
                 <div class="projects-page__filter">
                     <Title
                         :data="{
-                            title: 'Проекты',
+                            title: $t('projects.title'),
                             isHighLeading: true,
                         }"
                     />
@@ -46,14 +46,17 @@
 <script setup lang="ts">
 import { useHead } from '@unhead/vue';
 import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 import { CardProjectSmall } from '@/entities/project-small';
 import { Title } from '@/shared/ui/title';
 import { IconBase } from '@/shared/ui/icon-base';
 import { HeaderPage } from '@/entities/header-page';
 import { projectsService, type Project } from '@/shared/api';
 
+const { t } = useI18n();
+
 useHead({
-  title: 'CRM - Projects'
+  title: () => `CRM - ${t('projects.title')}`
 });
 
 const router = useRouter();

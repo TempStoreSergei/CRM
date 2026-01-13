@@ -1,0 +1,128 @@
+{
+  "common": {
+    "loading": "Загрузка...",
+    "save": "Сохранить",
+    "cancel": "Отмена",
+    "delete": "Удалить",
+    "edit": "Редактировать",
+    "add": "Добавить",
+    "search": "Поиск",
+    "viewAll": "Смотреть все",
+    "logout": "Выйти",
+    "support": "Поддержка",
+    "connected": "Подключен",
+    "notConnected": "Не подключен",
+    "connect": "Подключить",
+    "disconnect": "Отключить"
+  },
+  "nav": {
+    "dashboard": "Главная",
+    "projects": "Проекты",
+    "calendar": "Календарь",
+    "vacations": "Отпуска",
+    "employees": "Сотрудники",
+    "messenger": "Сообщения",
+    "notifications": "Уведомления",
+    "settings": "Настройки"
+  },
+  "home": {
+    "welcomeBack": "С возвращением, {name}!"
+  },
+  "projects": {
+    "title": "Проекты",
+    "addProject": "Добавить проект",
+    "noProjects": "Нет проектов"
+  },
+  "calendar": {
+    "title": "Календарь",
+    "today": "Сегодня",
+    "tomorrow": "Завтра",
+    "noEvents": "Нет событий",
+    "addEvent": "Добавить событие",
+    "days": {
+      "mon": "Пн",
+      "tue": "Вт",
+      "wed": "Ср",
+      "thu": "Чт",
+      "fri": "Пт",
+      "sat": "Сб",
+      "sun": "Вс"
+    }
+  },
+  "events": {
+    "title": "События",
+    "addEvent": "Добавить событие",
+    "eventName": "Название события",
+    "eventCategory": "Категория",
+    "priority": "Приоритет",
+    "date": "Дата",
+    "description": "Описание",
+    "saveEvent": "Сохранить событие"
+  },
+  "vacations": {
+    "title": "Отпуска",
+    "from": "С",
+    "to": "До",
+    "total": "Всего",
+    "noVacations": "Нет отпусков"
+  },
+  "employees": {
+    "title": "Сотрудники",
+    "addEmployee": "Добавить сотрудника",
+    "activity": "Активность",
+    "list": "Список",
+    "department": "Отдел",
+    "birthday": "Дата рождения",
+    "status": "Статус",
+    "position": "Должность",
+    "backlogTasks": "Задачи в бэклоге",
+    "inProgress": "В работе",
+    "inReview": "На ревью",
+    "firstName": "Имя",
+    "lastName": "Фамилия",
+    "email": "Email",
+    "phone": "Телефон",
+    "level": "Уровень",
+    "adding": "Добавление...",
+    "fillRequired": "Заполните обязательные поля: Имя, Фамилия, Email",
+    "addedSuccess": "Сотрудник успешно добавлен!",
+    "addError": "Ошибка при добавлении сотрудника"
+  },
+  "departments": {
+    "development": "Разработка",
+    "design": "Дизайн",
+    "marketing": "Маркетинг",
+    "hr": "HR",
+    "sales": "Продажи",
+    "support": "Поддержка"
+  },
+  "settings": {
+    "title": "Настройки",
+    "profile": "Профиль",
+    "notifications": "Уведомления",
+    "emailNotifications": "Email уведомления",
+    "pushNotifications": "Push уведомления",
+    "taskNotifications": "Уведомления о задачах",
+    "eventNotifications": "Уведомления о событиях",
+    "integrations": "Интеграции",
+    "appearance": "Внешний вид",
+    "darkTheme": "Тёмная тема",
+    "language": "Язык",
+    "saveChanges": "Сохранить изменения",
+    "profileLoadError": "Не удалось загрузить данные профиля",
+    "settingsSaved": "Настройки сохранены!",
+    "settingsSaveError": "Не удалось сохранить настройки",
+    "googleCalendarRedirect": "Перенаправление на Google для авторизации...",
+    "telegramBot": "Откройте Telegram и найдите бота @CRMBot"
+  },
+  "auth": {
+    "login": "Войти",
+    "register": "Регистрация",
+    "email": "Email",
+    "password": "Пароль"
+  },
+  "tasks": {
+    "title": "Задачи",
+    "addTask": "Добавить задачу"
+  }
+}

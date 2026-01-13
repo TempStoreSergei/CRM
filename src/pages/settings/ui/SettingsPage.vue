@@ -5,7 +5,7 @@
             <article class="settings-page__card">
                 <Title
                     :data="{
-                        title: 'Настройки',
+                        title: $t('settings.title'),
                         size: 'medium',
                         isHighLeading: true,
                         marginBottom: 'medium',
@@ -17,7 +17,7 @@
                     <div class="settings-page__section">
                         <Title
                             :data="{
-                                title: 'Профиль',
+                                title: $t('settings.profile'),
                                 marginBottom: 'small',
                             }"
                         />
@@ -27,7 +27,7 @@
                                     value: state.profile.firstName,
                                     type: 'text',
                                     name: 'firstName',
-                                    title: 'Имя',
+                                    title: $t('employees.firstName'),
                                 }"
                                 @onInput="(val) => state.profile.firstName = val"
                             />
@@ -36,7 +36,7 @@
                                     value: state.profile.lastName,
                                     type: 'text',
                                     name: 'lastName',
-                                    title: 'Фамилия',
+                                    title: $t('employees.lastName'),
                                 }"
                                 @onInput="(val) => state.profile.lastName = val"
                             />
@@ -45,7 +45,7 @@
                                     value: state.profile.email,
                                     type: 'email',
                                     name: 'email',
-                                    title: 'Email',
+                                    title: $t('employees.email'),
                                     isReadonly: true,
                                 }"
                             />
@@ -54,9 +54,32 @@
                                     value: state.profile.phone,
                                     type: 'tel',
                                     name: 'phone',
-                                    title: 'Телефон',
+                                    title: $t('employees.phone'),
                                 }"
                                 @onInput="(val) => state.profile.phone = val"
+                            />
+                        </div>
+                    </div>
+
+                    <hr class="settings-page__divider">
+
+                    <!-- Language Settings -->
+                    <div class="settings-page__section">
+                        <Title
+                            :data="{
+                                title: $t('settings.language'),
+                                marginBottom: 'small',
+                            }"
+                        />
+                        <div class="settings-page__options">
+                            <UISelect
+                                @change="handleLanguageChange"
+                                :data="{
+                                    name: 'language',
+                                    title: $t('settings.language'),
+                                    options: languageOptions,
+                                    value: state.language,
+                                }"
                             />
                         </div>
                     </div>
@@ -67,13 +90,13 @@
                     <div class="settings-page__section">
                         <Title
                             :data="{
-                                title: 'Уведомления',
+                                title: $t('settings.notifications'),
                                 marginBottom: 'small',
                             }"
                         />
                         <div class="settings-page__options">
                             <div class="settings-page__option">
-                                <span>Email уведомления</span>
+                                <span>{{ $t('settings.emailNotifications') }}</span>
                                 <UICheckbox
                                     :data="{
                                         checked: state.notifications.email,
@@ -83,7 +106,7 @@
                                 />
                             </div>
                             <div class="settings-page__option">
-                                <span>Push уведомления</span>
+                                <span>{{ $t('settings.pushNotifications') }}</span>
                                 <UICheckbox
                                     :data="{
                                         checked: state.notifications.push,
@@ -93,7 +116,7 @@
                                 />
                             </div>
                             <div class="settings-page__option">
-                                <span>Уведомления о задачах</span>
+                                <span>{{ $t('settings.taskNotifications') }}</span>
                                 <UICheckbox
                                     :data="{
                                         checked: state.notifications.tasks,
@@ -103,7 +126,7 @@
                                 />
                             </div>
                             <div class="settings-page__option">
-                                <span>Уведомления о событиях</span>
+                                <span>{{ $t('settings.eventNotifications') }}</span>
                                 <UICheckbox
                                     :data="{
                                         checked: state.notifications.events,
@@ -121,7 +144,7 @@
                     <div class="settings-page__section">
                         <Title
                             :data="{
-                                title: 'Интеграции',
+                                title: $t('settings.integrations'),
                                 marginBottom: 'small',
                             }"
                         />
@@ -132,13 +155,13 @@
                                     <div>
                                         <div class="settings-page__integration-name">Google Calendar</div>
                                         <div class="settings-page__integration-status">
-                                            {{ state.integrations.googleCalendar ? 'Подключен' : 'Не подключен' }}
+                                            {{ state.integrations.googleCalendar ? $t('common.connected') : $t('common.notConnected') }}
                                         </div>
                                     </div>
                                 </div>
                                 <UiButton
                                     :data="{
-                                        title: state.integrations.googleCalendar ? 'Отключить' : 'Подключить',
+                                        title: state.integrations.googleCalendar ? $t('common.disconnect') : $t('common.connect'),
                                         type: 'button',
                                     }"
                                     @click="toggleGoogleCalendar"
@@ -150,13 +173,13 @@
                                     <div>
                                         <div class="settings-page__integration-name">Telegram</div>
                                         <div class="settings-page__integration-status">
-                                            {{ state.integrations.telegram ? 'Подключен' : 'Не подключен' }}
+                                            {{ state.integrations.telegram ? $t('common.connected') : $t('common.notConnected') }}
                                         </div>
                                     </div>
                                 </div>
                                 <UiButton
                                     :data="{
-                                        title: state.integrations.telegram ? 'Отключить' : 'Подключить',
+                                        title: state.integrations.telegram ? $t('common.disconnect') : $t('common.connect'),
                                         type: 'button',
                                     }"
                                     @click="toggleTelegram"
@@ -171,13 +194,13 @@
                     <div class="settings-page__section">
                         <Title
                             :data="{
-                                title: 'Внешний вид',
+                                title: $t('settings.appearance'),
                                 marginBottom: 'small',
                             }"
                         />
                         <div class="settings-page__options">
                             <div class="settings-page__option">
-                                <span>Тёмная тема</span>
+                                <span>{{ $t('settings.darkTheme') }}</span>
                                 <UICheckbox
                                     :data="{
                                         checked: state.theme === 'dark',
@@ -193,7 +216,7 @@
                 <div class="settings-page__actions">
                     <UiButton
                         :data="{
-                            title: 'Сохранить изменения',
+                            title: $t('settings.saveChanges'),
                             type: 'button',
                             isFull: true,
                         }"
@@ -208,6 +231,7 @@
 <script setup lang="ts">
 import { useHead } from '@unhead/vue';
 import { useToast } from 'vue-toastification';
+import { useI18n } from 'vue-i18n';
 import { Title } from '@/shared/ui/title';
 import { UIInput } from '@/shared/ui/input';
 import { UiButton } from '@/shared/ui/button';
@@ -215,17 +239,27 @@ import { Checkbox as UICheckbox } from '@/shared/ui/checkbox';
 import { IconBase } from '@/shared/ui/icon-base';
 import { HeaderPage } from '@/entities/header-page';
 import { authService, usersService } from '@/shared/api';
+import { UISelect } from '@/shared/ui/select';
+import { setLocale, type Locale } from '@/shared/i18n';
+
+const { t, locale } = useI18n();
 
 useHead({
-    title: 'CRM - Настройки'
+    title: () => `CRM - ${t('settings.title')}`
 });
 
 const toast = useToast();
+
+const languageOptions = [
+    { value: 'ru', title: 'Русский' },
+    { value: 'en', title: 'English' },
+];
 
 const state = reactive({
     isLoading: true,
     isSaving: false,
     userId: '',
+    language: locale.value as Locale,
     profile: {
         firstName: '',
         lastName: '',
@@ -245,6 +279,11 @@ const state = reactive({
     theme: 'light' as 'light' | 'dark',
 });
 
+const handleLanguageChange = (value: string) => {
+    state.language = value as Locale;
+    setLocale(value as Locale);
+};
+
 const loadUserData = async () => {
     state.isLoading = true;
     try {
@@ -256,7 +295,7 @@ const loadUserData = async () => {
         state.profile.phone = user.phone || '';
     } catch (error) {
         console.error('Failed to load user data:', error);
-        toast.error('Не удалось загрузить данные профиля');
+        toast.error(t('settings.profileLoadError'));
     } finally {
         state.isLoading = false;
     }
@@ -265,14 +304,14 @@ const loadUserData = async () => {
 const toggleGoogleCalendar = () => {
     state.integrations.googleCalendar = !state.integrations.googleCalendar;
     if (state.integrations.googleCalendar) {
-        toast.info('Перенаправление на Google для авторизации...');
+        toast.info(t('settings.googleCalendarRedirect'));
     }
 };
 
 const toggleTelegram = () => {
     state.integrations.telegram = !state.integrations.telegram;
     if (state.integrations.telegram) {
-        toast.info('Откройте Telegram и найдите бота @CRMBot');
+        toast.info(t('settings.telegramBot'));
     }
 };
 
@@ -290,10 +329,10 @@ const saveSettings = async () => {
             lastName: state.profile.lastName,
             phone: state.profile.phone,
         });
-        toast.success('Настройки сохранены!');
+        toast.success(t('settings.settingsSaved'));
     } catch (error) {
         console.error('Failed to save settings:', error);
-        toast.error('Не удалось сохранить настройки');
+        toast.error(t('settings.settingsSaveError'));
     } finally {
         state.isSaving = false;
     }
