@@ -5,7 +5,7 @@ const menuItems = [
   { label: 'Vacations', route: '/vacations', icon: 'vacations'  },
   { label: 'Employees', route: '/employees', icon: 'employees'  },
   { label: 'Messenger', route: '/messenger', icon: 'messenger'  },
-  { label: 'Analytics', route: '/analytics', icon: 'folder'  },
+  { label: 'Analytics', route: '/analytics', icon: 'chart'  },
   { label: 'Notifications', route: '/notifications', icon: 'notification'  },
   { label: 'Settings', route: '/settings', icon: 'settings'  },
 ];

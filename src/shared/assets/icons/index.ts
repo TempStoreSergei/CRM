@@ -29,6 +29,7 @@ export type IconName =
   'user' |
   'message' |
   'info' |
-  'bell';
+  'bell' |
+  'chart';
 
 export type Priority = 'small' | 'medium' | 'large';
