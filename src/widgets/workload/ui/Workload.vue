@@ -13,18 +13,19 @@
                 }"
             >
                 <template #content>
-                    <div class="workload__employees">
+                    <div v-if="isLoading" class="workload__loading">Загрузка...</div>
+                    <div v-else class="workload__employees">
                         <Card
-                            v-for="index in 6"
-                            :key="index"
-                            @click="goToProfile"
+                            v-for="employee in employees"
+                            :key="employee.id"
+                            @click="goToProfile(employee.id)"
                             :data="{
                                 isWhite: false,
                                 isBox: false,
-                                fullName: 'Shawn Stone',
-                                tag: 'Middle',
-                                job: 'UI/UX Designer',
-                                image: 'https://cdn.tripster.ru/thumbs2/f5a8c1fe-b128-11ed-9e63-2e5ef03bee8d.1220x600.jpeg',
+                                fullName: `${employee.firstName} ${employee.lastName}`,
+                                tag: employee.level || 'Employee',
+                                job: employee.position || 'Сотрудник',
+                                image: employee.avatar || 'https://via.placeholder.com/150',
                             }"
                         />
                     </div>
@@ -38,13 +39,32 @@
 import { useRouter } from 'vue-router';
 import { Card } from '@/entities/user';
 import { TitleWithLink } from '@/entities/grop-title';
+import { employeesService, type Employee } from '@/shared/api';
 
 const router = useRouter();
 
-const goToProfile = () => {
-  router.push({ path: '/profile' });
+const employees = ref<Employee[]>([]);
+const isLoading = ref(true);
+
+const loadEmployees = async () => {
+    isLoading.value = true;
+    try {
+        const response = await employeesService.getEmployees({ limit: 6 });
+        employees.value = response.data;
+    } catch (error) {
+        console.error('Failed to load employees:', error);
+    } finally {
+        isLoading.value = false;
+    }
 };
 
+const goToProfile = (id?: string) => {
+    router.push({ path: '/profile', query: id ? { id } : {} });
+};
+
+onMounted(() => {
+    loadEmployees();
+});
 </script>
 
 <style lang="scss">

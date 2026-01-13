@@ -188,19 +188,14 @@ useHead({
 });
 
 const state = reactive({
-    isLoading: false,
+    isLoading: true,
+    error: '',
     data: {
-        projects: { total: 15, active: 10, completed: 5 },
-        tasks: { total: 150, completed: 80, inProgress: 50, overdue: 10 },
-        team: { totalEmployees: 50, onVacation: 5, onSickLeave: 2 },
-        upcomingEvents: [
-            { id: '1', title: 'Встреча с командой', date: new Date().toISOString() },
-            { id: '2', title: 'Дедлайн проекта', date: new Date(Date.now() + 86400000 * 3).toISOString() },
-        ],
-        recentActivity: [
-            { id: '1', type: 'task_completed', description: 'Задача "Дизайн главной страницы" выполнена', user: { id: '1', name: 'Иван Петров' }, timestamp: new Date().toISOString() },
-            { id: '2', type: 'project_created', description: 'Создан новый проект "Mobile App"', user: { id: '2', name: 'Мария Иванова' }, timestamp: new Date(Date.now() - 3600000).toISOString() },
-        ],
+        projects: { total: 0, active: 0, completed: 0 },
+        tasks: { total: 0, completed: 0, inProgress: 0, overdue: 0 },
+        team: { totalEmployees: 0, onVacation: 0, onSickLeave: 0 },
+        upcomingEvents: [] as { id: string; title: string; date: string }[],
+        recentActivity: [] as { id: string; type: string; description: string; user: { id: string; name: string }; timestamp: string }[],
     } as DashboardAnalytics,
 });
 
@@ -238,19 +233,20 @@ const getActivityIcon = (type: string) => {
 
 const loadData = async () => {
     state.isLoading = true;
+    state.error = '';
     try {
         const data = await analyticsService.getDashboard();
         state.data = data;
     } catch (error) {
         console.error('Failed to load analytics:', error);
+        state.error = 'Не удалось загрузить данные';
     } finally {
         state.isLoading = false;
     }
 };
 
 onMounted(() => {
-    // Uncomment when backend is ready
-    // loadData();
+    loadData();
 });
 </script>
 

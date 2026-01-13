@@ -77,7 +77,7 @@ import { Tabs } from '@/shared/ui/tabs';
 import { IconBase } from '@/shared/ui/icon-base';
 import { HeaderPage } from '@/entities/header-page';
 import NotificationItem from './NotificationItem.vue';
-import type { Notification } from '@/shared/api';
+import { notificationsService, type Notification } from '@/shared/api';
 
 useHead({
     title: 'CRM - Уведомления'
@@ -92,44 +92,8 @@ const tabs = [
 
 const state = reactive({
     activeTab: 0,
-    notifications: [
-        {
-            id: '1',
-            type: 'task_assigned' as const,
-            title: 'Новая задача',
-            message: 'Вам назначена задача "Дизайн главной страницы"',
-            data: { entityType: 'task' as const, entityId: '123' },
-            read: false,
-            createdAt: new Date().toISOString(),
-        },
-        {
-            id: '2',
-            type: 'event_reminder' as const,
-            title: 'Напоминание',
-            message: 'Встреча с командой через 30 минут',
-            data: { entityType: 'event' as const, entityId: '456' },
-            read: false,
-            createdAt: new Date(Date.now() - 1800000).toISOString(),
-        },
-        {
-            id: '3',
-            type: 'vacation_approved' as const,
-            title: 'Отпуск одобрен',
-            message: 'Ваша заявка на отпуск одобрена',
-            data: { entityType: 'vacation' as const, entityId: '789' },
-            read: true,
-            createdAt: new Date(Date.now() - 86400000).toISOString(),
-        },
-        {
-            id: '4',
-            type: 'message_received' as const,
-            title: 'Новое сообщение',
-            message: 'Иван Петров: "Привет! Как дела с проектом?"',
-            data: { entityType: 'message' as const, entityId: '101' },
-            read: true,
-            createdAt: new Date(Date.now() - 172800000).toISOString(),
-        },
-    ] as Notification[],
+    isLoading: true,
+    notifications: [] as Notification[],
 });
 
 const filteredNotifications = computed(() => state.notifications);
@@ -144,26 +108,58 @@ const handleTabChange = (index: number) => {
     state.activeTab = index;
 };
 
-const handleNotificationClick = (notification: Notification) => {
+const loadNotifications = async () => {
+    state.isLoading = true;
+    try {
+        const response = await notificationsService.getNotifications();
+        state.notifications = response.data;
+    } catch (error) {
+        console.error('Failed to load notifications:', error);
+        toast.error('Не удалось загрузить уведомления');
+    } finally {
+        state.isLoading = false;
+    }
+};
+
+const handleNotificationClick = async (notification: Notification) => {
     if (!notification.read) {
-        const idx = state.notifications.findIndex(n => n.id === notification.id);
-        if (idx !== -1) {
-            state.notifications[idx].read = true;
+        try {
+            await notificationsService.markAsRead(notification.id);
+            const idx = state.notifications.findIndex(n => n.id === notification.id);
+            if (idx !== -1) {
+                state.notifications[idx].read = true;
+            }
+        } catch (error) {
+            console.error('Failed to mark as read:', error);
         }
     }
-    // Navigate based on notification type
-    // router.push(...)
 };
 
-const handleDelete = (id: string) => {
-    state.notifications = state.notifications.filter(n => n.id !== id);
-    toast.success('Уведомление удалено');
+const handleDelete = async (id: string) => {
+    try {
+        await notificationsService.deleteNotification(id);
+        state.notifications = state.notifications.filter(n => n.id !== id);
+        toast.success('Уведомление удалено');
+    } catch (error) {
+        console.error('Failed to delete notification:', error);
+        toast.error('Не удалось удалить уведомление');
+    }
 };
 
-const markAllAsRead = () => {
-    state.notifications = state.notifications.map(n => ({ ...n, read: true }));
-    toast.success('Все уведомления отмечены как прочитанные');
+const markAllAsRead = async () => {
+    try {
+        await notificationsService.markAllAsRead();
+        state.notifications = state.notifications.map(n => ({ ...n, read: true }));
+        toast.success('Все уведомления отмечены как прочитанные');
+    } catch (error) {
+        console.error('Failed to mark all as read:', error);
+        toast.error('Не удалось отметить уведомления');
+    }
 };
+
+onMounted(() => {
+    loadNotifications();
+});
 </script>
 
 <style lang="scss">

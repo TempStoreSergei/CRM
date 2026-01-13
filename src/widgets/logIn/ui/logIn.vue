@@ -70,11 +70,10 @@
                     </template>
                 </UiButton>
                 <Link
-                    @click="handlerCreateUser"
                     class="login__link"
                     :data="{
-                        title: 'Don’t have an account?',
-                        to: '/',
+                        title: 'Нет аккаунта? Зарегистрироваться',
+                        to: '/register',
                     }"
                 />
             </form>

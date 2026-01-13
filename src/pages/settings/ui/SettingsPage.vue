@@ -214,6 +214,7 @@ import { UiButton } from '@/shared/ui/button';
 import { Checkbox as UICheckbox } from '@/shared/ui/checkbox';
 import { IconBase } from '@/shared/ui/icon-base';
 import { HeaderPage } from '@/entities/header-page';
+import { authService, usersService } from '@/shared/api';
 
 useHead({
     title: 'CRM - Настройки'
@@ -222,11 +223,14 @@ useHead({
 const toast = useToast();
 
 const state = reactive({
+    isLoading: true,
+    isSaving: false,
+    userId: '',
     profile: {
-        firstName: 'Evan',
-        lastName: 'Yates',
-        email: 'evanyates@gmail.com',
-        phone: '+1 675 346 23-10',
+        firstName: '',
+        lastName: '',
+        email: '',
+        phone: '',
     },
     notifications: {
         email: true,
@@ -240,6 +244,23 @@ const state = reactive({
     },
     theme: 'light' as 'light' | 'dark',
 });
+
+const loadUserData = async () => {
+    state.isLoading = true;
+    try {
+        const user = await authService.getCurrentUser();
+        state.userId = user.id;
+        state.profile.firstName = user.firstName;
+        state.profile.lastName = user.lastName;
+        state.profile.email = user.email;
+        state.profile.phone = user.phone || '';
+    } catch (error) {
+        console.error('Failed to load user data:', error);
+        toast.error('Не удалось загрузить данные профиля');
+    } finally {
+        state.isLoading = false;
+    }
+};
 
 const toggleGoogleCalendar = () => {
     state.integrations.googleCalendar = !state.integrations.googleCalendar;
@@ -259,9 +280,28 @@ const toggleTheme = (value: boolean) => {
     state.theme = value ? 'dark' : 'light';
 };
 
-const saveSettings = () => {
-    toast.success('Настройки сохранены!');
+const saveSettings = async () => {
+    if (state.isSaving) return;
+    
+    state.isSaving = true;
+    try {
+        await usersService.updateUser(state.userId, {
+            firstName: state.profile.firstName,
+            lastName: state.profile.lastName,
+            phone: state.profile.phone,
+        });
+        toast.success('Настройки сохранены!');
+    } catch (error) {
+        console.error('Failed to save settings:', error);
+        toast.error('Не удалось сохранить настройки');
+    } finally {
+        state.isSaving = false;
+    }
 };
+
+onMounted(() => {
+    loadUserData();
+});
 </script>
 
 <style lang="scss">

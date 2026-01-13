@@ -2,62 +2,54 @@
   <section class="employees-page">
     <HeaderPage />
     <div class="wrapper">
-      <Tabs :data="{
+      <div v-if="store.isLoading" class="employees-page__loading">
+        Загрузка...
+      </div>
+      <Tabs v-else :data="{
         tabs: tabs,
         activeTab: store.activeTab
       }" @onTab="handlerChangeTab">
         <template #Activity>
-          <RecycleScroller
-            class="employees-page__employees"
-            :items="list"
-            :item-size="336"
-            :page-mode="true"
-            key-field="id"
-          >
+          <div class="employees-page__employees">
             <Card
+              v-for="employee in list"
+              :key="employee.id"
               :data="{
-                    isWhite: false,
-                    isBox: true,
-                    fullName: 'Shawn Stone',
-                    tag: 'Middle',
-                    job: 'UI/UX Designer',
-                    image: 'https://cdn.tripster.ru/thumbs2/f5a8c1fe-b128-11ed-9e63-2e5ef03bee8d.1220x600.jpeg',
-                  }"
+                isWhite: false,
+                isBox: true,
+                fullName: `${employee.firstName} ${employee.lastName}`,
+                tag: employee.level || 'Employee',
+                job: employee.position || 'Сотрудник',
+                image: employee.avatar || 'https://via.placeholder.com/150',
+              }"
             >
               <template #content>
                 <div class="employees-page__task">
                   <div class="employees-page__column employees-page__column_center">
-                    <div class="employees-page__date employees-page__date_big">0</div>
-                    <div class="employees-page__about">Backlog
-                      tasks</div>
+                    <div class="employees-page__date employees-page__date_big">{{ employee.workload?.backlogTasks || 0 }}</div>
+                    <div class="employees-page__about">Backlog tasks</div>
                   </div>
                   <div class="employees-page__column employees-page__column_center">
-                    <div class="employees-page__date employees-page__date_big">16</div>
-                    <div class="employees-page__about">Tasks
-                      In Progress</div>
+                    <div class="employees-page__date employees-page__date_big">{{ employee.workload?.inProgressTasks || 0 }}</div>
+                    <div class="employees-page__about">Tasks In Progress</div>
                   </div>
                   <div class="employees-page__column employees-page__column_center">
-                    <div class="employees-page__date employees-page__date_big">6</div>
-                    <div class="employees-page__about">Tasks
-                      In Review</div>
+                    <div class="employees-page__date employees-page__date_big">{{ employee.workload?.inReviewTasks || 0 }}</div>
+                    <div class="employees-page__about">Tasks In Review</div>
                   </div>
                 </div>
               </template>
             </Card>
-          </RecycleScroller>
+          </div>
         </template>
         <template #List>
-          <RecycleScroller
-            class="employees-page__employees"
-            :items="list"
-            :item-size="288"
-            :page-mode="true"
-            key-field="id"
-          >
+          <div class="employees-page__employees">
             <CardEmployee
+              v-for="employee in list"
+              :key="employee.id"
               :data="{
-                job: 'zu@pasajpot.org',
-                name: 'Samuel Curry',
+                job: employee.email,
+                name: `${employee.firstName} ${employee.lastName}`,
                 isShowLine: true,
                 isBorderRound: true,
                 isShadow: true,
@@ -66,34 +58,34 @@
               <template #content>
                 <div class="employees-page__info">
                   <div class="employees-page__column">
-                    <div class="employees-page__title">Gender</div>
-                    <div class="employees-page__date">{{ new Date().getFullYear()}}</div>
+                    <div class="employees-page__title">Отдел</div>
+                    <div class="employees-page__date">{{ employee.department || '-' }}</div>
                   </div>
                   <div class="employees-page__column">
-                    <div class="employees-page__title">Birthday</div>
-                    <div class="employees-page__date">{{ new Date().getFullYear()}}</div>
+                    <div class="employees-page__title">Дата рождения</div>
+                    <div class="employees-page__date">{{ employee.birthday || '-' }}</div>
                   </div>
                   <div class="employees-page__column">
-                    <div class="employees-page__title">Full age</div>
-                    <div class="employees-page__date">{{ new Date().getDate()}}</div>
+                    <div class="employees-page__title">Статус</div>
+                    <div class="employees-page__date">{{ employee.status || 'active' }}</div>
                   </div>
                 </div>
                 <div class="employees-page__job">
                   <div class="employees-page__title">
-                    Position
+                    Должность
                   </div>
                   <div class="employees-page__position">
-                  <span class="employees-page__description">
-                    UI/UX Designer
-                  </span>
+                    <span class="employees-page__description">
+                      {{ employee.position || 'Сотрудник' }}
+                    </span>
                     <Tag :data="{
-                    text: 'Middle'
-                  }"/>
+                      text: employee.level || 'Employee'
+                    }"/>
                   </div>
                 </div>
               </template>
             </CardEmployee>
-          </RecycleScroller>
+          </div>
         </template>
       </Tabs>
     </div>
@@ -108,34 +100,44 @@ import { Tag } from '@/shared/ui/tag'
 import { Tabs } from '@/shared/ui/tabs'
 import { Card } from '@/entities/user'
 import { HeaderPage } from '@/entities/header-page'
-
+import { employeesService, type Employee } from '@/shared/api'
 
 useHead({
   title: 'CRM - Employees'
 })
 
-
-const generateHours = () => new Array(700).fill(1).map((v, i) => {
-  return { id: i + 1, text: i + 1}
-})
-
-const list = generateHours();
 const tabs = [
   { label: 'Activity' },
   { label: 'List' }
 ]
 
 const store = reactive({
-  activeTab: 0
+  activeTab: 0,
+  isLoading: true,
+  employees: [] as Employee[],
 })
+
+const list = computed(() => store.employees.map((emp, i) => ({ id: i + 1, ...emp })))
+
+const loadEmployees = async () => {
+  store.isLoading = true
+  try {
+    const response = await employeesService.getEmployees()
+    store.employees = response.data
+  } catch (error) {
+    console.error('Failed to load employees:', error)
+  } finally {
+    store.isLoading = false
+  }
+}
 
 const handlerChangeTab = (value: number) => {
   store.activeTab = value;
 }
 
-/*onBeforeUnmount(() => {
-  bookModel.$reset()
-})*/
+onMounted(() => {
+  loadEmployees()
+})
 </script>
 
 <style lang="scss">
