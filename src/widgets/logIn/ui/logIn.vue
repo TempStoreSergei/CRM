@@ -113,14 +113,14 @@
 
 import { useToast } from 'vue-toastification';
 import { router } from '@/app/providers';
-import { http } from '@/shared/api';
+import { authService } from '@/shared/api';
 import { Title } from '@/shared/ui/title';
 import { UIInput } from '@/shared/ui/input';
 import { UiButton } from '@/shared/ui/button';
 import Link from '@/shared/ui/link/ui/Link.vue';
 import ArrowRightLongIcon from '@/shared/assets/icons/arrowRightLong.vue';
-import { accessTokenLocalStorage, refreshTokenLocalStorage } from '@/shared/lib/ustils/isAutorise';
-import { useCustomWebNotification } from '@/shared/lib/ustils/notification';
+import { accessTokenLocalStorage, refreshTokenLocalStorage } from '@/shared/lib/utils/isAutorise';
+import { useCustomWebNotification } from '@/shared/lib/utils/notification';
 import { PopUp } from '@/entities/popup';
 
 const toast = useToast();
@@ -131,34 +131,47 @@ const state = reactive({
     password: '',
     agent: navigator.userAgent
   },
-  chose: true
+  chose: true,
+  isLoading: false,
 });
+
 const submitForm = async () => {
+  if (state.isLoading) return;
+  
+  state.isLoading = true;
   try {
-    const response = await http.post('http://localhost:3000/auth/logIn', state.fromData);
-    const { accessToken } = response.data;
-    const { refreshToken } = response.data;
-    accessTokenLocalStorage.value = accessToken;
-    refreshTokenLocalStorage.value = refreshToken;
+    const response = await authService.login(state.fromData);
+    accessTokenLocalStorage.value = response.accessToken;
+    refreshTokenLocalStorage.value = response.refreshToken;
+    toast.success('Успешный вход!');
     await router.push({ path: '/' });
   } catch (error) {
     console.error('Error submitting form:', error);
+    toast.error('Ошибка входа. Проверьте данные.');
+  } finally {
+    state.isLoading = false;
   }
 };
 
 const { isSupported, show: showNotification, permissionGranted } = useCustomWebNotification();
 
 const handlerCreateUser = async () => {
-  const { status } = await http.post('http://localhost:3000/auth/signUp', state.fromData);
-  if (status === 201) {
-    const response = await http.post('http://localhost:3000/auth/logIn', state.fromData);
-    const { accessToken } = response.data;
-    const { refreshToken } = response.data;
-    accessTokenLocalStorage.value = accessToken;
-    refreshTokenLocalStorage.value = refreshToken;
+  if (state.isLoading) return;
+  
+  state.isLoading = true;
+  try {
+    await authService.signUp(state.fromData);
+    const response = await authService.login(state.fromData);
+    accessTokenLocalStorage.value = response.accessToken;
+    refreshTokenLocalStorage.value = response.refreshToken;
     toast.info('Вы успешно зарегистрировались!!!');
+    router.push({ path: '/' });
+  } catch (error) {
+    console.error('Error creating user:', error);
+    toast.error('Ошибка регистрации.');
+  } finally {
+    state.isLoading = false;
   }
-  router.push({ path: '/' });
 };
 
 const handlerEmail = event => {

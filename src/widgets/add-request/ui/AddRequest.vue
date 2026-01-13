@@ -77,7 +77,7 @@
 <script setup lang="ts">
 import { PopUp } from '@/entities/popup'
 import { UiButton } from '@/shared/ui/button'
-import { lock, unlock } from "@/shared/lib/ustils/isBlockScroll";
+import { lock, unlock } from "@/shared/lib/utils/isBlockScroll";
 import { useModalStore } from '@/entities/add-modal'
 import { storeToRefs } from 'pinia'
 import { Tabs } from '@/shared/ui/tabs'

@@ -43,7 +43,7 @@ import { storeToRefs } from 'pinia';
 import { PopUp } from '@/entities/popup';
 import { UiButton } from '@/shared/ui/button';
 import { UISelect } from '@/shared/ui/select';
-import { lock, unlock } from '@/shared/lib/ustils/isBlockScroll';
+import { lock, unlock } from '@/shared/lib/utils/isBlockScroll';
 import { useModalStore } from '@/entities/add-modal';
 import { Link } from '@/shared/ui/link';
 

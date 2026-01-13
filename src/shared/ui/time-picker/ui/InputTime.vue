@@ -92,7 +92,7 @@
 import { TimePicker } from '@/shared/ui/time-picker';
 import { BottomSheet } from '@/entities/bottom-sheet';
 import { UIInput } from '@/shared/ui/input';
-import { lock, unlock } from '@/shared/lib/ustils/isBlockScroll'
+import { lock, unlock } from '@/shared/lib/utils/isBlockScroll'
 import { Tabs } from '@/shared/ui/tabs'
 import { UiButton } from '@/shared/ui/button'
 

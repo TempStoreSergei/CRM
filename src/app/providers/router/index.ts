@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router';
 import { routes } from './routes';
-import { isAuthenticated } from '@/shared/lib/ustils/isAutorise';
+import { isAuthenticated } from '@/shared/lib/utils/isAutorise';
 
 export const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),

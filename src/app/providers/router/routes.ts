@@ -19,7 +19,7 @@ export const routes = [
   },
   {
     path: '/projects',
-    component: () => import('@/pages/progects'),
+    component: () => import('@/pages/projects-page'),
     name: 'projects',
     meta: { requiresAuth: true }
   },
