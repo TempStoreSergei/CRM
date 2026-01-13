@@ -137,18 +137,76 @@ const handleLogout = () => {
   @import 'index.scss';
 
   .no-auth {
-    margin-top: 56px;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    
     &__header {
       display: flex;
       align-items: center;
       column-gap: 16px;
       justify-content: center;
+      padding: 32px 0;
     }
     &__title {
       color: rgb(58, 137, 255);
       font-size: 20px;
       font-weight: 700;
       line-height: 150%;
+    }
+    &__content {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      padding-bottom: 40px;
+    }
+    
+    @media (min-width: 768px) {
+      &__header {
+        padding: 48px 0;
+      }
+      &__content {
+        justify-content: center;
+        padding-bottom: 80px;
+      }
+    }
+    
+    @media (min-width: 1024px) {
+      flex-direction: row;
+      
+      &__header {
+        flex-direction: column;
+        justify-content: center;
+        width: 40%;
+        max-width: 500px;
+        background: linear-gradient(135deg, #3F8CFF 0%, #1E5BB4 100%);
+        padding: 48px;
+        
+        .login__image {
+          width: 80px;
+          height: 80px;
+        }
+      }
+      
+      &__title {
+        color: #fff;
+        font-size: 32px;
+      }
+      
+      &__logo {
+        background: #fff;
+        border-radius: 20px;
+        padding: 16px;
+      }
+      
+      &__content {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 48px;
+      }
     }
   }
   
@@ -264,9 +322,11 @@ const handleLogout = () => {
       display: flex;
       flex-direction: column;
       min-height: 100vh;
+      width: 100%;
       
       @media (min-width: 1024px) {
         margin-left: 280px;
+        width: calc(100% - 280px);
       }
     }
     
@@ -275,7 +335,7 @@ const handleLogout = () => {
       padding-bottom: 80px;
       
       @media (min-width: 1024px) {
-        padding-bottom: 24px;
+        padding: 0 24px 24px;
         max-width: 1200px;
         margin: 0 auto;
         width: 100%;
@@ -289,6 +349,13 @@ const handleLogout = () => {
     .fab-container,
     .action-plus {
       display: none !important;
+    }
+    
+    // Hide mobile panel header on desktop since sidebar has logo
+    .info-panel {
+      .navigation-toggle {
+        display: none;
+      }
     }
   }
 </style>

@@ -4,10 +4,10 @@
       <Title
         class="history__title"
         :data="{
-          title: 'Activity Stream',
+          title: $t('home.activityStream'),
           marginBottom: 'medium',
         }"/>
-      <div v-if="isLoading" class="history__loading">Загрузка...</div>
+      <div v-if="isLoading" class="history__loading">{{ $t('common.loading') }}</div>
       <div v-else class="history__persons">
         <CardEmployee
           v-for="activity in activities"
@@ -15,7 +15,7 @@
           :data="{
             isShadow: false,
             name: activity.user.name,
-            job: activity.user.position || 'Сотрудник',
+            job: activity.user.position || $t('employees.position'),
             isShowLine: false,
             isBorderRound: false,
           }"

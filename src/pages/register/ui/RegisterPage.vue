@@ -4,7 +4,7 @@
             <Title
                 class="register__title"
                 :data="{
-                    title: 'Регистрация в CRM',
+                    title: $t('auth.registerTitle'),
                     size: 'medium',
                     isHighLeading: true,
                     marginBottom: 'medium',
@@ -18,10 +18,10 @@
                     class="register__input"
                     @onInput="(val) => state.formData.firstName = val"
                     :data="{
-                        title: 'Имя',
+                        title: $t('employees.firstName'),
                         name: 'firstName',
                         type: 'text',
-                        placeholder: 'Введите имя',
+                        placeholder: $t('auth.enterFirstName'),
                         value: state.formData.firstName,
                     }"
                 />
@@ -29,10 +29,10 @@
                     class="register__input"
                     @onInput="(val) => state.formData.lastName = val"
                     :data="{
-                        title: 'Фамилия',
+                        title: $t('employees.lastName'),
                         name: 'lastName',
                         type: 'text',
-                        placeholder: 'Введите фамилию',
+                        placeholder: $t('auth.enterLastName'),
                         value: state.formData.lastName,
                     }"
                 />
@@ -40,7 +40,7 @@
                     class="register__input"
                     @onInput="(val) => state.formData.email = val"
                     :data="{
-                        title: 'Email',
+                        title: $t('auth.email'),
                         name: 'email',
                         type: 'email',
                         placeholder: 'youremail@gmail.com',
@@ -51,7 +51,7 @@
                     class="register__input"
                     @onInput="(val) => state.formData.password = val"
                     :data="{
-                        title: 'Пароль',
+                        title: $t('auth.password'),
                         name: 'password',
                         type: 'password',
                         placeholder: '••••••••',
@@ -63,7 +63,7 @@
                     class="register__input"
                     @onInput="(val) => state.formData.confirmPassword = val"
                     :data="{
-                        title: 'Подтвердите пароль',
+                        title: $t('auth.confirmPassword'),
                         name: 'confirmPassword',
                         type: 'password',
                         placeholder: '••••••••',
@@ -77,15 +77,15 @@
                 <UiButton
                     class="register__button"
                     :data="{
-                        title: state.isLoading ? 'Регистрация...' : 'Зарегистрироваться',
+                        title: state.isLoading ? $t('auth.registering') : $t('auth.signUp'),
                         type: 'submit',
                         isFull: true,
                     }"
                 />
                 <div class="register__login">
-                    <span>Уже есть аккаунт?</span>
+                    <span>{{ $t('auth.haveAccount') }}</span>
                     <router-link to="/login" class="register__login-link">
-                        Войти
+                        {{ $t('auth.signIn') }}
                     </router-link>
                 </div>
             </form>
@@ -97,14 +97,17 @@
 import { useHead } from '@unhead/vue';
 import { useToast } from 'vue-toastification';
 import { useRouter } from 'vue-router';
+import { useI18n } from 'vue-i18n';
 import { Title } from '@/shared/ui/title';
 import { UIInput } from '@/shared/ui/input';
 import { UiButton } from '@/shared/ui/button';
 import { authService } from '@/shared/api';
 import { accessTokenLocalStorage, refreshTokenLocalStorage } from '@/shared/lib/utils/isAutorise';
 
+const { t } = useI18n();
+
 useHead({
-    title: 'CRM - Регистрация'
+    title: () => `CRM - ${t('auth.register')}`
 });
 
 const toast = useToast();
@@ -125,27 +128,27 @@ const state = reactive({
 
 const validateForm = () => {
     if (!state.formData.firstName.trim()) {
-        state.error = 'Введите имя';
+        state.error = t('auth.enterFirstName');
         return false;
     }
     if (!state.formData.lastName.trim()) {
-        state.error = 'Введите фамилию';
+        state.error = t('auth.enterLastName');
         return false;
     }
     if (!state.formData.email.trim()) {
-        state.error = 'Введите email';
+        state.error = t('auth.enterEmail');
         return false;
     }
     if (!state.formData.password) {
-        state.error = 'Введите пароль';
+        state.error = t('auth.enterPassword');
         return false;
     }
     if (state.formData.password.length < 6) {
-        state.error = 'Пароль должен быть не менее 6 символов';
+        state.error = t('auth.passwordMinLength');
         return false;
     }
     if (state.formData.password !== state.formData.confirmPassword) {
-        state.error = 'Пароли не совпадают';
+        state.error = t('auth.passwordsNotMatch');
         return false;
     }
     state.error = '';
@@ -168,7 +171,6 @@ const submitForm = async () => {
             agent: state.formData.agent,
         });
         
-        // После успешной регистрации выполняем вход
         const loginResponse = await authService.login({
             email: state.formData.email,
             password: state.formData.password,
@@ -178,11 +180,11 @@ const submitForm = async () => {
         accessTokenLocalStorage.value = loginResponse.accessToken;
         refreshTokenLocalStorage.value = loginResponse.refreshToken;
         
-        toast.success('Регистрация успешна!');
+        toast.success(t('auth.registerSuccess'));
         router.push({ path: '/' });
     } catch (error: any) {
         console.error('Registration error:', error);
-        state.error = error.response?.data?.message || 'Ошибка регистрации. Попробуйте снова.';
+        state.error = error.response?.data?.message || t('auth.registerError');
         toast.error(state.error);
     } finally {
         state.isLoading = false;

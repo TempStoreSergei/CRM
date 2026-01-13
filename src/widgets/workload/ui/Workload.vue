@@ -4,16 +4,16 @@
             <TitleWithLink
                 :data="{
                     title: {
-                        title: 'Workload',
+                        title: $t('home.workload'),
                     },
                     link: {
-                        title: 'View all',
+                        title: $t('common.viewAll'),
                         to: '/employees',
                     },
                 }"
             >
                 <template #content>
-                    <div v-if="isLoading" class="workload__loading">Загрузка...</div>
+                    <div v-if="isLoading" class="workload__loading">{{ $t('common.loading') }}</div>
                     <div v-else class="workload__employees">
                         <Card
                             v-for="employee in employees"
@@ -24,7 +24,7 @@
                                 isBox: false,
                                 fullName: `${employee.firstName} ${employee.lastName}`,
                                 tag: employee.level || 'Employee',
-                                job: employee.position || 'Сотрудник',
+                                job: employee.position || $t('employees.position'),
                                 image: employee.avatar || 'https://via.placeholder.com/150',
                             }"
                         />

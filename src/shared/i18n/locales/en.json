@@ -25,8 +25,21 @@
     "notifications": "Notifications",
     "settings": "Settings"
   },
+  "pages": {
+    "dashboard": "Dashboard",
+    "projects": "Projects",
+    "calendar": "Calendar",
+    "vacations": "Vacations",
+    "employees": "Employees",
+    "messenger": "Messenger",
+    "profile": "Profile",
+    "myProfile": "My Profile",
+    "error": "Error"
+  },
   "home": {
-    "welcomeBack": "Welcome back, {name}!"
+    "welcomeBack": "Welcome back, {name}!",
+    "workload": "Workload",
+    "activityStream": "Activity Stream"
   },
   "projects": {
     "title": "Projects",
@@ -116,10 +129,34 @@
     "telegramBot": "Open Telegram and find bot @CRMBot"
   },
   "auth": {
-    "login": "Log In",
+    "signInTitle": "Sign In to CRM",
+    "signIn": "Sign In",
+    "signUp": "Sign Up",
     "register": "Register",
+    "registerTitle": "Register in CRM",
+    "emailAddress": "Email Address",
     "email": "Email",
-    "password": "Password"
+    "password": "Password",
+    "confirmPassword": "Confirm Password",
+    "resetAllFields": "Reset All Fields",
+    "forgotPassword": "Forgot Password?",
+    "noAccount": "Don't have an account?",
+    "haveAccount": "Already have an account?",
+    "allowNotification": "Allow notification?",
+    "yes": "Yes",
+    "no": "No",
+    "loginSuccess": "Login successful!",
+    "loginError": "Login error. Check your credentials.",
+    "registerSuccess": "Registration successful!",
+    "registerError": "Registration error. Try again.",
+    "registering": "Registering...",
+    "enterFirstName": "Enter first name",
+    "enterLastName": "Enter last name",
+    "enterEmail": "Enter email",
+    "enterPassword": "Enter password",
+    "passwordMinLength": "Password must be at least 6 characters",
+    "passwordsNotMatch": "Passwords do not match",
+    "notWorking": "Not working yet"
   },
   "tasks": {
     "title": "Tasks",

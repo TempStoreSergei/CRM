@@ -25,8 +25,21 @@
     "notifications": "Уведомления",
     "settings": "Настройки"
   },
+  "pages": {
+    "dashboard": "Панель управления",
+    "projects": "Проекты",
+    "calendar": "Календарь",
+    "vacations": "Отпуска",
+    "employees": "Сотрудники",
+    "messenger": "Сообщения",
+    "profile": "Профиль",
+    "myProfile": "Мой профиль",
+    "error": "Ошибка"
+  },
   "home": {
-    "welcomeBack": "С возвращением, {name}!"
+    "welcomeBack": "С возвращением, {name}!",
+    "workload": "Загруженность",
+    "activityStream": "Лента активности"
   },
   "projects": {
     "title": "Проекты",
@@ -116,10 +129,34 @@
     "telegramBot": "Откройте Telegram и найдите бота @CRMBot"
   },
   "auth": {
-    "login": "Войти",
+    "signInTitle": "Вход в CRM",
+    "signIn": "Войти",
+    "signUp": "Зарегистрироваться",
     "register": "Регистрация",
+    "registerTitle": "Регистрация в CRM",
+    "emailAddress": "Email адрес",
     "email": "Email",
-    "password": "Пароль"
+    "password": "Пароль",
+    "confirmPassword": "Подтвердите пароль",
+    "resetAllFields": "Сбросить все поля",
+    "forgotPassword": "Забыли пароль?",
+    "noAccount": "Нет аккаунта?",
+    "haveAccount": "Уже есть аккаунт?",
+    "allowNotification": "Разрешить уведомления?",
+    "yes": "Да",
+    "no": "Нет",
+    "loginSuccess": "Успешный вход!",
+    "loginError": "Ошибка входа. Проверьте данные.",
+    "registerSuccess": "Регистрация успешна!",
+    "registerError": "Ошибка регистрации. Попробуйте снова.",
+    "registering": "Регистрация...",
+    "enterFirstName": "Введите имя",
+    "enterLastName": "Введите фамилию",
+    "enterEmail": "Введите email",
+    "enterPassword": "Введите пароль",
+    "passwordMinLength": "Пароль должен быть не менее 6 символов",
+    "passwordsNotMatch": "Пароли не совпадают",
+    "notWorking": "Пока не работает"
   },
   "tasks": {
     "title": "Задачи",
