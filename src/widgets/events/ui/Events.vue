@@ -58,7 +58,7 @@ const formatTime = (dateString: string) => {
 
 const calculateDuration = (start: string, end: string) => {
     const hours = differenceInHours(new Date(end), new Date(start))
-    return `${hours}ч`
+    return hours > 0 ? `${hours}ч` : '1ч'
 }
 
 const loadEvents = async () => {
