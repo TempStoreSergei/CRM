@@ -3,7 +3,7 @@
     <HeaderPage />
     <div class="wrapper">
       <div v-if="store.isLoading" class="employees-page__loading">
-        Загрузка...
+        {{ $t('common.loading') }}
       </div>
       <Tabs v-else :data="{
         tabs: tabs,
@@ -19,7 +19,7 @@
                 isBox: true,
                 fullName: `${employee.firstName} ${employee.lastName}`,
                 tag: employee.level || 'Employee',
-                job: employee.position || 'Сотрудник',
+                job: employee.position || $t('employees.position'),
                 image: employee.avatar || 'https://via.placeholder.com/150',
               }"
             >
@@ -27,15 +27,15 @@
                 <div class="employees-page__task">
                   <div class="employees-page__column employees-page__column_center">
                     <div class="employees-page__date employees-page__date_big">{{ employee.workload?.backlogTasks || 0 }}</div>
-                    <div class="employees-page__about">Backlog tasks</div>
+                    <div class="employees-page__about">{{ $t('employees.backlogTasks') }}</div>
                   </div>
                   <div class="employees-page__column employees-page__column_center">
                     <div class="employees-page__date employees-page__date_big">{{ employee.workload?.inProgressTasks || 0 }}</div>
-                    <div class="employees-page__about">Tasks In Progress</div>
+                    <div class="employees-page__about">{{ $t('employees.inProgress') }}</div>
                   </div>
                   <div class="employees-page__column employees-page__column_center">
                     <div class="employees-page__date employees-page__date_big">{{ employee.workload?.inReviewTasks || 0 }}</div>
-                    <div class="employees-page__about">Tasks In Review</div>
+                    <div class="employees-page__about">{{ $t('employees.inReview') }}</div>
                   </div>
                 </div>
               </template>
@@ -58,25 +58,25 @@
               <template #content>
                 <div class="employees-page__info">
                   <div class="employees-page__column">
-                    <div class="employees-page__title">Отдел</div>
+                    <div class="employees-page__title">{{ $t('employees.department') }}</div>
                     <div class="employees-page__date">{{ employee.department || '-' }}</div>
                   </div>
                   <div class="employees-page__column">
-                    <div class="employees-page__title">Дата рождения</div>
+                    <div class="employees-page__title">{{ $t('employees.birthday') }}</div>
                     <div class="employees-page__date">{{ employee.birthday || '-' }}</div>
                   </div>
                   <div class="employees-page__column">
-                    <div class="employees-page__title">Статус</div>
+                    <div class="employees-page__title">{{ $t('employees.status') }}</div>
                     <div class="employees-page__date">{{ employee.status || 'active' }}</div>
                   </div>
                 </div>
                 <div class="employees-page__job">
                   <div class="employees-page__title">
-                    Должность
+                    {{ $t('employees.position') }}
                   </div>
                   <div class="employees-page__position">
                     <span class="employees-page__description">
-                      {{ employee.position || 'Сотрудник' }}
+                      {{ employee.position || $t('employees.position') }}
                     </span>
                     <Tag :data="{
                       text: employee.level || 'Employee'
@@ -94,6 +94,7 @@
 
 <script setup lang="ts">
 import { useHead } from '@unhead/vue'
+import { useI18n } from 'vue-i18n';
 import { Header } from '@/shared/ui/header'
 import { CardEmployee } from '@/entities/employee'
 import { Tag } from '@/shared/ui/tag'
@@ -102,14 +103,16 @@ import { Card } from '@/entities/user'
 import { HeaderPage } from '@/entities/header-page'
 import { employeesService, type Employee } from '@/shared/api'
 
+const { t } = useI18n();
+
 useHead({
-  title: 'CRM - Employees'
+  title: () => `CRM - ${t('employees.title')}`
 })
 
-const tabs = [
-  { label: 'Activity' },
-  { label: 'List' }
-]
+const tabs = computed(() => [
+  { label: t('employees.activity') },
+  { label: t('employees.list') }
+]);
 
 const store = reactive({
   activeTab: 0,

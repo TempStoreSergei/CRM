@@ -4,7 +4,7 @@
             <Title
                 class="login__title"
                 :data="{
-                    title: 'Sign In to CRM',
+                    title: $t('auth.signInTitle'),
                     size: 'medium',
                     isHighLeading: true,
                     marginBottom: 'medium',
@@ -18,7 +18,7 @@
                     class="login__email"
                     @onInput="handlerEmail"
                     :data="{
-                        title: 'Email Address',
+                        title: $t('auth.emailAddress'),
                         name: 'email',
                         type: 'email',
                         placeholder: 'youremail@gmail.com',
@@ -29,7 +29,7 @@
                     class="login__password"
                     @onInput="handlerPassword"
                     :data="{
-                        title: 'Password',
+                        title: $t('auth.password'),
                         name: 'password',
                         type: 'password',
                         placeholder: '••••••••',
@@ -46,20 +46,20 @@
                         class="login__reset"
                         type="reset"
                     >
-                        Reset All Field
+                        {{ $t('auth.resetAllFields') }}
                     </button>
 
                     <router-link
                         to="/forgot"
                         class="login__forgot"
                     >
-                        Forgot Password?
+                        {{ $t('auth.forgotPassword') }}
                     </router-link>
                 </div>
                 <UiButton
                     class="login__button"
                     :data="{
-                        title: 'Sign In',
+                        title: $t('auth.signIn'),
                         type: 'submit',
                         iconNameRight: 'Arrow Right',
                         isFull: true,
@@ -72,7 +72,7 @@
                 <Link
                     class="login__link"
                     :data="{
-                        title: 'Нет аккаунта? Зарегистрироваться',
+                        title: $t('auth.noAccountSignUp'),
                         to: '/register',
                     }"
                 />
@@ -81,7 +81,7 @@
     </div>
     <PopUp
         :data="{
-            title: 'Allow notification?',
+            title: $t('auth.allowNotification'),
             open: isSupported && !permissionGranted && state.chose,
         }"
     >
@@ -91,7 +91,7 @@
                     class="login__choise"
                     :data="{
                         type: 'button',
-                        title: 'Yes',
+                        title: $t('auth.yes'),
                     }"
                     @click="handlerPermission(true)"
                 />
@@ -99,7 +99,7 @@
                     class="login__choise"
                     :data="{
                         type: 'button',
-                        title: 'No',
+                        title: $t('auth.no'),
                     }"
                     @click="handlerPermission(false)"
                 />
@@ -109,7 +109,7 @@
 </template>
 
 <script setup>
-
+import { useI18n } from 'vue-i18n';
 import { useToast } from 'vue-toastification';
 import { router } from '@/app/providers';
 import { authService } from '@/shared/api';
@@ -122,6 +122,7 @@ import { accessTokenLocalStorage, refreshTokenLocalStorage } from '@/shared/lib/
 import { useCustomWebNotification } from '@/shared/lib/utils/notification';
 import { PopUp } from '@/entities/popup';
 
+const { t } = useI18n();
 const toast = useToast();
 
 const state = reactive({
@@ -142,11 +143,11 @@ const submitForm = async () => {
     const response = await authService.login(state.fromData);
     accessTokenLocalStorage.value = response.accessToken;
     refreshTokenLocalStorage.value = response.refreshToken;
-    toast.success('Успешный вход!');
+    toast.success(t('auth.loginSuccess'));
     await router.push({ path: '/' });
   } catch (error) {
     console.error('Error submitting form:', error);
-    toast.error('Ошибка входа. Проверьте данные.');
+    toast.error(t('auth.loginError'));
   } finally {
     state.isLoading = false;
   }
@@ -154,32 +155,13 @@ const submitForm = async () => {
 
 const { isSupported, show: showNotification, permissionGranted } = useCustomWebNotification();
 
-const handlerCreateUser = async () => {
-  if (state.isLoading) return;
-  
-  state.isLoading = true;
-  try {
-    await authService.signUp(state.fromData);
-    const response = await authService.login(state.fromData);
-    accessTokenLocalStorage.value = response.accessToken;
-    refreshTokenLocalStorage.value = response.refreshToken;
-    toast.info('Вы успешно зарегистрировались!!!');
-    router.push({ path: '/' });
-  } catch (error) {
-    console.error('Error creating user:', error);
-    toast.error('Ошибка регистрации.');
-  } finally {
-    state.isLoading = false;
-  }
-};
-
 const handlerEmail = event => {
   state.fromData.email = event;
 };
 
 const handlerPermission = value => {
   if (value) {
-    alert('Пока не работает');
+    alert(t('auth.notWorking'));
   } else {
     state.chose = false;
   }

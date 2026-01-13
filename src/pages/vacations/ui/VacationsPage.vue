@@ -2,42 +2,48 @@
     <section class="projects-page">
         <HeaderPage />
         <div class="wrapper">
-            <div class="projects-page__employees">
+            <div v-if="isLoading" class="projects-page__loading">
+                {{ $t('common.loading') }}
+            </div>
+            <div v-else-if="vacations.length === 0" class="projects-page__empty">
+                {{ $t('vacations.noVacations') }}
+            </div>
+            <div v-else class="projects-page__employees">
                 <CardEmployee
+                    v-for="vacation in vacations"
+                    :key="vacation.id"
                     :data="{
-                        job: 'zu@pasajpot.org',
-                        name: 'Samuel Curry',
+                        job: vacation.user.email,
+                        name: vacation.user.name,
                         isShowLine: true,
                         isBorderRound: true,
                         isShadow: true,
                     }"
-                    v-for="index in 6"
-                    :key="index"
                 >
                     <template #content>
                         <div class="projects-page__info">
                             <div class="projects-page__column">
                                 <div class="projects-page__title">
-                                    From
+                                    {{ $t('vacations.from') }}
                                 </div>
                                 <div class="projects-page__date">
-                                    {{ new Date().getFullYear() }}
+                                    {{ formatDate(vacation.startDate) }}
                                 </div>
                             </div>
                             <div class="projects-page__column">
                                 <div class="projects-page__title">
-                                    To
+                                    {{ $t('vacations.to') }}
                                 </div>
                                 <div class="projects-page__date">
-                                    {{ new Date().getFullYear() }}
+                                    {{ formatDate(vacation.endDate) }}
                                 </div>
                             </div>
                             <div class="projects-page__column">
                                 <div class="projects-page__title">
-                                    Total
+                                    {{ $t('vacations.total') }}
                                 </div>
                                 <div class="projects-page__date">
-                                    {{ new Date().getDate() }}
+                                    {{ vacation.totalDays }}
                                 </div>
                             </div>
                         </div>
@@ -50,16 +56,43 @@
 
 <script setup lang="ts">
 import { useHead } from '@unhead/vue';
+import { useI18n } from 'vue-i18n';
 import { CardEmployee } from '@/entities/employee';
 import { HeaderPage } from '@/entities/header-page';
+import { vacationsService, type Vacation } from '@/shared/api';
+import { format } from 'date-fns';
+import { ru, enUS } from 'date-fns/locale';
+
+const { t, locale } = useI18n();
 
 useHead({
-  title: 'Projects'
+  title: () => `CRM - ${t('vacations.title')}`
 });
 
-/* onBeforeUnmount(() => {
-  bookModel.$reset()
-}) */
+const vacations = ref<Vacation[]>([]);
+const isLoading = ref(true);
+
+const formatDate = (dateString: string) => {
+    const date = new Date(dateString);
+    const dateLocale = locale.value === 'ru' ? ru : enUS;
+    return format(date, 'd MMM yyyy', { locale: dateLocale });
+};
+
+const loadVacations = async () => {
+    isLoading.value = true;
+    try {
+        const response = await vacationsService.getVacations();
+        vacations.value = response.data;
+    } catch (error) {
+        console.error('Failed to load vacations:', error);
+    } finally {
+        isLoading.value = false;
+    }
+};
+
+onMounted(() => {
+    loadVacations();
+});
 </script>
 
 <style lang="scss">
@@ -69,6 +102,12 @@ useHead({
     flex-direction: column;
     row-gap: 20px;
     margin-bottom: 50px;
+  }
+  &__loading,
+  &__empty {
+    padding: 20px;
+    text-align: center;
+    color: #7D8592;
   }
   &__info {
     display: flex;

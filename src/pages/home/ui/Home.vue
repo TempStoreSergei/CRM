@@ -4,7 +4,7 @@
             <Title
                 class="home-page__welcome-title"
                 :data="{
-                    title: `Welcome back, ${userName}!`,
+                    title: $t('home.welcomeBack', { name: userName }),
                     size: 'small',
                     isHighLeading: true,
                     marginBottom: 'small',

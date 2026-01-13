@@ -6,6 +6,7 @@ import Toast, { PluginOptions, POSITION } from 'vue-toastification'
 import VueVirtualScroller from 'vue-virtual-scroller'
 import 'vue-virtual-scroller/dist/vue-virtual-scroller.css'
 import 'vue-toastification/dist/index.css'
+import { i18n } from '@/shared/i18n'
 
 import App from './App.vue'
 
@@ -16,4 +17,4 @@ const options: PluginOptions = {
 };
 
 
-export const app = createApp(App).use(createPinia()).use(createHead()).use(router).use(VueVirtualScroller).use(Toast, options)
+export const app = createApp(App).use(createPinia()).use(createHead()).use(router).use(i18n).use(VueVirtualScroller).use(Toast, options)

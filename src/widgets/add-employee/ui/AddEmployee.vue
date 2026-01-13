@@ -3,7 +3,7 @@
         @onClose="closeAddEmployee"
         @onOpen="openAddEmployee"
         :data="{
-            title: 'Добавить сотрудника',
+            title: $t('employees.addEmployee'),
             open: state.showAddEmployee,
         }"
     >
@@ -13,8 +13,8 @@
                     @onInput="(val) => formData.firstName = val"
                     :data="{
                         type: 'text',
-                        title: 'Имя',
-                        placeholder: 'Введите имя',
+                        title: $t('employees.firstName'),
+                        placeholder: $t('employees.firstName'),
                         name: 'firstName',
                         value: formData.firstName,
                     }"
@@ -23,8 +23,8 @@
                     @onInput="(val) => formData.lastName = val"
                     :data="{
                         type: 'text',
-                        title: 'Фамилия',
-                        placeholder: 'Введите фамилию',
+                        title: $t('employees.lastName'),
+                        placeholder: $t('employees.lastName'),
                         name: 'lastName',
                         value: formData.lastName,
                     }"
@@ -33,7 +33,7 @@
                     @onInput="(val) => formData.email = val"
                     :data="{
                         type: 'email',
-                        title: 'Email',
+                        title: $t('employees.email'),
                         placeholder: 'email@example.com',
                         name: 'email',
                         value: formData.email,
@@ -43,7 +43,7 @@
                     @onInput="(val) => formData.phone = val"
                     :data="{
                         type: 'tel',
-                        title: 'Телефон',
+                        title: $t('employees.phone'),
                         placeholder: '+7 999 123-45-67',
                         name: 'phone',
                         value: formData.phone,
@@ -53,7 +53,7 @@
                     @change="(val) => formData.department = val"
                     :data="{
                         name: 'department',
-                        title: 'Отдел',
+                        title: $t('employees.department'),
                         options: departmentOptions,
                     }"
                 />
@@ -61,8 +61,8 @@
                     @onInput="(val) => formData.position = val"
                     :data="{
                         type: 'text',
-                        title: 'Должность',
-                        placeholder: 'Разработчик',
+                        title: $t('employees.position'),
+                        placeholder: $t('employees.position'),
                         name: 'position',
                         value: formData.position,
                     }"
@@ -71,7 +71,7 @@
                     @change="(val) => formData.level = val"
                     :data="{
                         name: 'level',
-                        title: 'Уровень',
+                        title: $t('employees.level'),
                         options: levelOptions,
                     }"
                 />
@@ -82,7 +82,7 @@
                 <UiButton
                     @click="handleSubmit"
                     :data="{
-                        title: isLoading ? 'Добавление...' : 'Добавить сотрудника',
+                        title: isLoading ? $t('employees.adding') : $t('employees.addEmployee'),
                         type: 'button',
                         isFull: true,
                     }"
@@ -95,6 +95,7 @@
 <script setup lang="ts">
 import { storeToRefs } from 'pinia';
 import { useToast } from 'vue-toastification';
+import { useI18n } from 'vue-i18n';
 import { PopUp } from '@/entities/popup';
 import { UiButton } from '@/shared/ui/button';
 import { UISelect } from '@/shared/ui/select';
@@ -103,6 +104,7 @@ import { lock, unlock } from '@/shared/lib/utils/isBlockScroll';
 import { useModalStore } from '@/entities/add-modal';
 import { usersService } from '@/shared/api';
 
+const { t } = useI18n();
 const toast = useToast();
 const modalStore = useModalStore();
 const { state } = storeToRefs(modalStore);
@@ -119,14 +121,14 @@ const formData = reactive({
     level: 'Junior' as 'Junior' | 'Middle' | 'Senior' | 'Lead',
 });
 
-const departmentOptions = [
-    { value: 'development', title: 'Разработка' },
-    { value: 'design', title: 'Дизайн' },
-    { value: 'marketing', title: 'Маркетинг' },
-    { value: 'hr', title: 'HR' },
-    { value: 'sales', title: 'Продажи' },
-    { value: 'support', title: 'Поддержка' },
-];
+const departmentOptions = computed(() => [
+    { value: 'development', title: t('departments.development') },
+    { value: 'design', title: t('departments.design') },
+    { value: 'marketing', title: t('departments.marketing') },
+    { value: 'hr', title: t('departments.hr') },
+    { value: 'sales', title: t('departments.sales') },
+    { value: 'support', title: t('departments.support') },
+]);
 
 const levelOptions = [
     { value: 'Junior', title: 'Junior' },
@@ -147,7 +149,7 @@ const resetForm = () => {
 
 const handleSubmit = async () => {
     if (!formData.firstName || !formData.lastName || !formData.email) {
-        toast.error('Заполните обязательные поля: Имя, Фамилия, Email');
+        toast.error(t('employees.fillRequired'));
         return;
     }
     
@@ -162,12 +164,12 @@ const handleSubmit = async () => {
             position: formData.position,
             level: formData.level,
         });
-        toast.success('Сотрудник успешно добавлен!');
+        toast.success(t('employees.addedSuccess'));
         resetForm();
         closeAddEmployee();
     } catch (error) {
         console.error('Error adding employee:', error);
-        toast.error('Ошибка при добавлении сотрудника');
+        toast.error(t('employees.addError'));
     } finally {
         isLoading.value = false;
     }

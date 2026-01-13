@@ -3,16 +3,16 @@
     <section class="event-container">
       <TitleWithLink :data="{
         title: {
-          title: 'Events'
+          title: $t('events.title')
         },
         link: {
-          title: 'View all',
+          title: $t('common.viewAll'),
           to: '/nears-events'
         },
         class: 'wrapper events__title'
       }">
         <template #content>
-          <div v-if="isLoading" class="events__loading">Загрузка...</div>
+          <div v-if="isLoading" class="events__loading">{{ $t('common.loading') }}</div>
           <section v-else class="events">
             <CardEvent
               v-for="event in events"
@@ -33,23 +33,25 @@
 </template>
 
 <script setup lang="ts">
-import { useRouter } from 'vue-router'
+import { useI18n } from 'vue-i18n';
 import { TitleWithLink } from '@/entities/grop-title'
 import CardEvent from '@/entities/event/ui/card/CardEvent.vue'
 import { eventsService, type Event } from '@/shared/api'
 import { format, differenceInHours, isToday, isTomorrow } from 'date-fns'
-import { ru } from 'date-fns/locale'
+import { ru, enUS } from 'date-fns/locale'
 
-const router = useRouter()
+const { t, locale } = useI18n();
 
 const events = ref<Event[]>([])
 const isLoading = ref(true)
 
+const getDateLocale = () => locale.value === 'ru' ? ru : enUS;
+
 const formatDay = (dateString: string) => {
     const date = new Date(dateString)
-    if (isToday(date)) return 'Сегодня'
-    if (isTomorrow(date)) return 'Завтра'
-    return format(date, 'd MMM', { locale: ru })
+    if (isToday(date)) return t('calendar.today')
+    if (isTomorrow(date)) return t('calendar.tomorrow')
+    return format(date, 'd MMM', { locale: getDateLocale() })
 }
 
 const formatTime = (dateString: string) => {
@@ -58,7 +60,8 @@ const formatTime = (dateString: string) => {
 
 const calculateDuration = (start: string, end: string) => {
     const hours = differenceInHours(new Date(end), new Date(start))
-    return hours > 0 ? `${hours}ч` : '1ч'
+    const hourLabel = locale.value === 'ru' ? 'ч' : 'h';
+    return hours > 0 ? `${hours}${hourLabel}` : `1${hourLabel}`
 }
 
 const loadEvents = async () => {
